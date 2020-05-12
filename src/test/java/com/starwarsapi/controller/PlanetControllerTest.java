@@ -30,10 +30,10 @@ public class PlanetControllerTest {
 
     private JacksonTester<Planet> jsonEntity;
 
-    @Before
+  /*  @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
         JacksonTester.initFields(this, new ObjectMapper());
-    }
+    }*/
 
 }
