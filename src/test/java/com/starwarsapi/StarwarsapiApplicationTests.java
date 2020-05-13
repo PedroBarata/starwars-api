@@ -1,23 +1,43 @@
 package com.starwarsapi;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
+import com.starwarsapi.service.PlanetServiceTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-@SpringBootTest
-@AutoConfigureMockMvc
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = {PlanetServiceTest.class})
+@Suite.SuiteClasses({
+		PlanetServiceTest.class
+})
+@RunWith(Suite.class)
 public class StarwarsapiApplicationTests {
 
-	@Autowired
-	private MockMvc mockMvc;
 
-	@Test
-	public void shouldReturnDefaultMessage() throws Exception {
-		status().isOk();
+    @Test
+    public void contextLoads() {
+    }
+
+
+
+	/*@Test
+	public void contextLoads() {
+	}*/
+
+
+	/*@Bean
+	CommandLineRunner init(PlanetRepository planetRepository, PlanetService planetService) {
+		return args -> {
+			initPlanet(planetRepository, planetService);
+		};
 	}
+
+	private void initPlanet(PlanetRepository planetRepository, PlanetService planetService) {
+		Planet planet = new Planet("Coruscant", "Arid", "temperate");
+		List<Planet> findPlanet = planetRepository.findByNameIgnoreCaseContaining(planet.getName());
+		if (findPlanet == null || findPlanet.size() == 0) {
+			planetService.createOrUpdate(planet);
+		}
+	}*/
 
 }

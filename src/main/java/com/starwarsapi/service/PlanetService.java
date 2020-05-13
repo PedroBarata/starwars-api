@@ -21,5 +21,5 @@ public interface PlanetService {
 
     void delete(String id);
 
-    ResponseEntity<Response<Planet>> createOrUpdate(HttpServletRequest request, Planet planet, BindingResult result);
+    ResponseEntity<Response<Planet>> createOrUpdate(Planet planet);
 }

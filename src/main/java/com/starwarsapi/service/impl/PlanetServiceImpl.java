@@ -8,14 +8,13 @@ import com.starwarsapi.service.PlanetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,10 +48,9 @@ public class PlanetServiceImpl implements PlanetService {
     }
 
     @Override
-    public ResponseEntity<Response<Planet>> createOrUpdate(HttpServletRequest request,
-                                                           Planet planet,
-                                                           BindingResult result) {
+    public ResponseEntity<Response<Planet>> createOrUpdate(Planet planet) {
         Response<Planet> response = new Response<>();
+        BindingResult result = new DataBinder(planet).getBindingResult();
         try {
             validateCreatePlanet(planet, result);
             SwapiPlanetDTO swapiPlanet = requestAndCreateSwapiPlanetByName(planet);

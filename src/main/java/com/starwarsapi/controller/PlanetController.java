@@ -14,7 +14,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/planets")
 @CrossOrigin(origins = "*")
-public class PlanetaController {
+public class PlanetController {
 
     @Autowired
     private PlanetService planetService;
@@ -28,7 +28,7 @@ public class PlanetaController {
             return ResponseEntity.ok(response);
 
         } else {
-            response.getErrors().add("Não há registros com o id:" + id);
+            response.getErrors().add("No data found with id:" + id);
             return ResponseEntity.badRequest().body(response);
         }
     }
@@ -49,10 +49,8 @@ public class PlanetaController {
     }
 
     @PostMapping()
-    public ResponseEntity<Response<Planet>> create(HttpServletRequest request,
-                                                   @RequestBody Planet planet,
-                                                   BindingResult result) {
-        return planetService.createOrUpdate(request, planet, result);
+    public ResponseEntity<Response<Planet>> create(@RequestBody Planet planet) {
+        return planetService.createOrUpdate(planet);
     }
 
     @DeleteMapping(value = "{id}")
@@ -64,7 +62,7 @@ public class PlanetaController {
             return ResponseEntity.ok(new Response<String>());
 
         } else {
-            response.getErrors().add("Não há registros com o id:" + id);
+            response.getErrors().add("No data found with id:" + id);
             return ResponseEntity.badRequest().body(response);
         }
     }
