@@ -51,8 +51,8 @@ Requisições aceitas:
 * Deletar um planeta (método DELETE)
     * Endpoint `http://<ip_da_aplicação>:8080/api/planets/<id_do_planeta>`;
 * Criar um planeta (método POST)
- * Endpoint `http://<ip_da_aplicação>:8080/api/planets`;
-   Passando um objeto no formato JSON, como no exemplo abaixo:
+    * Endpoint `http://<ip_da_aplicação>:8080/api/planets`;
+     Passando um objeto no formato JSON, como no exemplo abaixo:
    
  ```json
  {
