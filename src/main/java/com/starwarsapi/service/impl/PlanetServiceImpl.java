@@ -7,6 +7,9 @@ import com.starwarsapi.response.Response;
 import com.starwarsapi.service.PlanetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,13 +36,14 @@ public class PlanetServiceImpl implements PlanetService {
     }
 
     @Override
-    public List<Planet> findByName(String name) {
-        return planetRepository.findByNameIgnoreCaseContaining(name);
+    public Optional<Planet> findByName(String name) {
+        return planetRepository.findByNameIgnoreCase(name);
     }
 
     @Override
-    public List<Planet> findAll() {
-        return planetRepository.findAll(Sort.by("name"));
+    public Page<Planet> findAll(int page, int count) {
+        Pageable pages = PageRequest.of(page, count, Sort.by("name"));
+        return planetRepository.findAll(pages);
     }
 
     @Override
@@ -99,6 +103,9 @@ public class PlanetServiceImpl implements PlanetService {
             result.addError(new ObjectError("Planet", "No climate information"));
             return;
         }
+        if (planetRepository.findByNameIgnoreCase(planet.getName()).isPresent()) {
+            result.addError(new ObjectError("Planet", "Already exists a planet with this name: " + planet.getName()));
+            return;
+        }
     }
-
 }

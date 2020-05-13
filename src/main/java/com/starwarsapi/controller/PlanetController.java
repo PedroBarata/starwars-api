@@ -4,6 +4,7 @@ import com.starwarsapi.entity.Planet;
 import com.starwarsapi.response.Response;
 import com.starwarsapi.service.PlanetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -33,18 +34,25 @@ public class PlanetController {
         }
     }
 
+    @GetMapping("find")
+    public ResponseEntity<Response<Planet>> findByName(@RequestParam("name") String name) {
+        Response<Planet> response = new Response<>();
+        Optional<Planet> planet = planetService.findByName(name);
+        if (planet.isPresent()) {
+            response.setData(planet.get());
+            return ResponseEntity.ok(response);
+        } else {
+            response.getErrors().add("No data found with name:" + name);
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
     @GetMapping()
     @ResponseBody
-    public ResponseEntity<Response<List<Planet>>> findByNameOrFindAll(@RequestParam("name") Optional<String> name) {
-        List<Planet> planets;
-        Response<List<Planet>> response = new Response<>();
-        if (name.isPresent()) {
-            planets = planetService.findByName(name.get());
-            response.setData(planets);
-        } else {
-            planets = planetService.findAll();
-            response.setData(planets);
-        }
+    public ResponseEntity<Response<Page<Planet>>> findAll(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                          @RequestParam(name = "count", defaultValue = "20") int count) {
+        Response<Page<Planet>> response = new Response<>();
+        response.setData(planetService.findAll(page, count));
         return ResponseEntity.ok(response);
     }
 

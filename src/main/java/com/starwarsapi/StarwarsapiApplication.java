@@ -9,9 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class StarwarsapiApplication {
+
+    private static final String FIELD_NAME = "Tatooine";
+    private static final String FIELD_CLIMATE = "arid";
+    private static final String FIELD_TERRAIN = "temperate";
+    private static final String ID = "5ebc7a7a65c0bf7a292d900c";
 
     public static void main(String[] args) {
         SpringApplication.run(StarwarsapiApplication.class, args);
@@ -25,11 +31,12 @@ public class StarwarsapiApplication {
     }
 
     private void initPlanet(PlanetRepository planetRepository, PlanetService planetService) {
-        Planet planet = new Planet("Coruscant", "Arid", "temperate");
-        List<Planet> findPlanet = planetRepository.findByNameIgnoreCaseContaining(planet.getName());
-        if (findPlanet == null || findPlanet.size() == 0) {
-			planetService.createOrUpdate(planet);
+        Planet planet = new Planet(ID, FIELD_NAME, FIELD_CLIMATE, FIELD_TERRAIN);
+        Optional<Planet> findPlanet = planetRepository.findByNameIgnoreCase(planet.getName());
+        if (findPlanet.isPresent()) {
+			planetService.delete(findPlanet.get().getId());
         }
+        planetService.createOrUpdate(planet);
     }
 
 }

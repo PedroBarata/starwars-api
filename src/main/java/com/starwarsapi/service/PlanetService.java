@@ -2,6 +2,7 @@ package com.starwarsapi.service;
 
 import com.starwarsapi.entity.Planet;
 import com.starwarsapi.response.Response;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
@@ -15,9 +16,9 @@ public interface PlanetService {
 
     Optional<Planet> findById(String id);
 
-    List<Planet> findByName(String name);
+    Optional<Planet> findByName(String name);
 
-    List<Planet> findAll();
+    Page<Planet> findAll(int page, int count);
 
     void delete(String id);
 
