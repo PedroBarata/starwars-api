@@ -1,3 +1,4 @@
+![GitHub repo size](https://img.shields.io/github/repo-size/pedroBarata/starwars-api) ![GitHub](https://img.shields.io/github/license/pedroBarata/starwars-api) 
 # Star Wars API
 
 API REST do desafio da B2W feita em Java com Spring Boot.
@@ -34,6 +35,17 @@ ou qualquer outro método para fazer requisições HTTP.
 ### Endpoints
 Caso estiver rodando em desenvolvimento, usa-se o `localhost`, caso contrário, 
 usa-se o IP do servidor em que a aplicação está sendo executada.  
+Ao subir a aplicação, por default ela já vem com um planeta cadastrado:
+
+ ```json
+ {
+   "id": "5ebc7a7a65c0bf7a292d900c",
+   "name": "Tatooine",
+   "climate": "arid", 
+   "terrain": "temperate",
+   "qtyFilms": 5
+ }
+ ```
 
 Requisições aceitas: 
 * Deletar um planeta (método DELETE)
@@ -44,7 +56,7 @@ Requisições aceitas:
    
  ```json
  {
-   "name": "Tatooine",
+   "name": "Coruscant",
    "climate": "arid", 
    "terrain": "desert"
  }
@@ -54,9 +66,9 @@ Requisições aceitas:
     * Endpoint `http://<ip_da_aplicação>:8080/api/planets/<id_do_planeta>`;
 * Buscar um planeta pelo nome (método GET)
     * Endpoint `http://<ip_da_aplicação>:8080/api/planets?name=<nome_do_planeta>`;
-    * Ao subir a aplicação, ela cria um planeta para teste: `http://<ip_da_aplicação>:8080/api/planets?name=Coruscant`
-* Listar todos os planetas (método GET)
-    * Endpoint `http://<ip_da_aplicação>:8080/api/planets`;
+    * Ao subir a aplicação, ela cria um planeta para teste: `http://<ip_da_aplicação>:8080/api/planets/find?name=Coruscant`
+* Listar todos os planetas (método GET), com paginação, onde é passado o nº de páginas e nº de itens por página: 
+    * Endpoint `http://localhost:8080/api/planets?page=<num_page>&count=<num_items>`;
 
 ## Tests
 Para rodar os testes em modo de desenvolvimento, usa-se:
@@ -66,7 +78,7 @@ $ mvn test
 Ao executar o comando de `build` do maven, ele também executa a rotina de testes antes de gerar o `jar`.
 
 ## Task list
-* [ ] Fazer os testes da aplicação
+* [x] Fazer os testes da aplicação
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
