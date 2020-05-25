@@ -3,10 +3,12 @@ package com.starwarsapi.service;
 import com.starwarsapi.entity.Planet;
 import com.starwarsapi.repository.PlanetRepository;
 import com.starwarsapi.response.Response;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@FixMethodOrder(MethodSorters.JVM)
 public class PlanetServiceTest {
     private static final String ID = "5ebc7a7a65c0bf7a292d900c";
     private static final String FIELD_NAME = "Tatooine";
@@ -39,9 +42,10 @@ public class PlanetServiceTest {
     }
 
     @Test
-    @AfterAll
-    public void deleteAllPlanets() {
-        planetRepository.deleteAll();
+    @BeforeAll
+    public void createOrUpdatePlanet() {
+        Planet planet = new Planet(ID, FIELD_NAME, FIELD_CLIMATE, FIELD_TERRAIN);
+        planetService.createOrUpdate(planet);
     }
 
     @Test
@@ -88,7 +92,6 @@ public class PlanetServiceTest {
     public void testCreateOrUpdateWithoutNameShouldThrowError() {
         Planet planet = new Planet(null, FIELD_CLIMATE, FIELD_TERRAIN);
         Response<Planet> persistedPlanet = planetService.createOrUpdate(planet).getBody();
-        assertThat(persistedPlanet.getErrors().size()).isGreaterThanOrEqualTo(1);
         assertThat(persistedPlanet.getErrors().get(0)).isEqualTo("No name information");
         assertThat(persistedPlanet.getData()).isNull();
     }
@@ -97,7 +100,6 @@ public class PlanetServiceTest {
     public void testCreateOrUpdateWithFewInfoNameSwapiShouldThrowError() {
         Planet planet = new Planet("Cor", FIELD_CLIMATE, FIELD_TERRAIN);
         Response<Planet> persistedPlanet = planetService.createOrUpdate(planet).getBody();
-        assertThat(persistedPlanet.getErrors().size()).isGreaterThanOrEqualTo(1);
         assertThat(persistedPlanet.getErrors().get(0)).isEqualTo("More than one data found. Please, be more specific with planet name");
         assertThat(persistedPlanet.getData()).isNull();
     }
@@ -106,7 +108,6 @@ public class PlanetServiceTest {
     public void testCreateOrUpdateWithWrongNameSwapiShouldThrowError() {
         Planet planet = new Planet("Cor123456", FIELD_CLIMATE, FIELD_TERRAIN);
         Response<Planet> persistedPlanet = planetService.createOrUpdate(planet).getBody();
-        assertThat(persistedPlanet.getErrors().size()).isGreaterThanOrEqualTo(1);
         assertThat(persistedPlanet.getErrors().get(0)).isEqualTo("No data found with name");
         assertThat(persistedPlanet.getData()).isNull();
     }
@@ -127,5 +128,9 @@ public class PlanetServiceTest {
         assertThat(persistedPlanet.getData()).isNull();
     }
 
-
+    @Test
+    @AfterAll
+    public void deleteAllPlanets() {
+        planetRepository.deleteAll();
+    }
 }

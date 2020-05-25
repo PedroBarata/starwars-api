@@ -8,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -34,7 +33,7 @@ public class StarwarsapiApplication {
         Planet planet = new Planet(ID, FIELD_NAME, FIELD_CLIMATE, FIELD_TERRAIN);
         Optional<Planet> findPlanet = planetRepository.findByNameIgnoreCase(planet.getName());
         if (findPlanet.isPresent()) {
-			planetService.delete(findPlanet.get().getId());
+            planetService.delete(findPlanet.get().getId());
         }
         planetService.createOrUpdate(planet);
     }

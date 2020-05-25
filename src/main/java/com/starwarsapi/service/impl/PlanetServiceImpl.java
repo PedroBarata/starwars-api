@@ -18,7 +18,6 @@ import org.springframework.validation.DataBinder;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

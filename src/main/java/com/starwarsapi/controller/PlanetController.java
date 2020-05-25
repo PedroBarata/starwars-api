@@ -6,11 +6,9 @@ import com.starwarsapi.service.PlanetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/planets")
