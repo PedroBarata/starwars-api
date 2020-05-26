@@ -8,6 +8,7 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@FixMethodOrder(MethodSorters.JVM)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @RunWith(SpringRunner.class)
 public class PlanetControllerTest {
     private static final String ID = "5ebc7a7a65c0bf7a292d900c";
@@ -34,62 +35,63 @@ public class PlanetControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void testContextLoads() throws Exception {
+    @Order(1)
+    public void a_testContextLoads() throws Exception {
         assertThat(objectMapper).isNotNull();
         assertThat(mockMvc).isNotNull();
     }
 
     @Test
-    public void testGetByIdShouldReturnStatus200() throws Exception {
+    public void b_testGetByIdShouldReturnStatus200() throws Exception {
         mockMvc.perform(get(API + "/" + ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testGetByIdShouldThrowError() throws Exception {
+    public void c_testGetByIdShouldThrowError() throws Exception {
         mockMvc.perform(get(API + "/12345")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void testGetByNameShouldReturnStatus200() throws Exception {
+    public void d_testGetByNameShouldReturnStatus200() throws Exception {
         mockMvc.perform(get(API + "/find?name=" + FIELD_NAME)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testGetByNameShouldThrowError() throws Exception {
+    public void e_testGetByNameShouldThrowError() throws Exception {
         mockMvc.perform(get(API + "/find?name=" + "testName")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void testGetAllShouldReturnStatus200() throws Exception {
+    public void f_testGetAllShouldReturnStatus200() throws Exception {
         mockMvc.perform(get(API)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testGetAllPageShouldReturnStatus200() throws Exception {
+    public void g_testGetAllPageShouldReturnStatus200() throws Exception {
         mockMvc.perform(get(API + "?page=0&count=10")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testDeleteByIdShouldReturnStatus200() throws Exception {
+    public void h_testDeleteByIdShouldReturnStatus200() throws Exception {
         mockMvc.perform(delete(API + "/" + ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testDeleteByIdShouldThrowError() throws Exception {
+    public void i_testDeleteByIdShouldThrowError() throws Exception {
         mockMvc.perform(delete(API + "/" + ID + "12345")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
