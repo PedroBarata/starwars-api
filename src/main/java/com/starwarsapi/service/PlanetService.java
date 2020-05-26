@@ -13,7 +13,7 @@ public interface PlanetService {
 
     Optional<Planet> findById(String id);
 
-    Optional<Planet> findByName(String name);
+    Page<Planet> findByNameContaining(String name, int page, int count);
 
     Page<Planet> findAll(int page, int count);
 

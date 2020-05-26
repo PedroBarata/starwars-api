@@ -31,11 +31,12 @@ public class Planet {
 
     }
 
-    public Planet(String id, String name, String climate, String terrain) {
+    public Planet(String id, String name, String climate, String terrain, Integer qtyFilms) {
         this.id = id;
         this.name = name;
         this.climate = climate;
         this.terrain = terrain;
+        this.qtyFilms = qtyFilms;
     }
 
     public Planet(String name, String climate, String terrain) {

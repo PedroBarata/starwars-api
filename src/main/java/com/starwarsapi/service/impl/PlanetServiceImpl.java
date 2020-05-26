@@ -35,8 +35,9 @@ public class PlanetServiceImpl implements PlanetService {
     }
 
     @Override
-    public Optional<Planet> findByName(String name) {
-        return planetRepository.findByNameIgnoreCase(name);
+    public Page<Planet> findByNameContaining(String name, int page, int count) {
+        Pageable pages = PageRequest.of(page, count, Sort.by("name"));
+        return planetRepository.findByNameIgnoreCaseContaining(name, pages);
     }
 
     @Override

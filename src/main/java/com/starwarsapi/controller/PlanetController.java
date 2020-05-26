@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -33,16 +34,12 @@ public class PlanetController {
     }
 
     @GetMapping("find")
-    public ResponseEntity<Response<Planet>> findByName(@RequestParam("name") String name) {
-        Response<Planet> response = new Response<>();
-        Optional<Planet> planet = planetService.findByName(name);
-        if (planet.isPresent()) {
-            response.setData(planet.get());
-            return ResponseEntity.ok(response);
-        } else {
-            response.getErrors().add("No data found with name:" + name);
-            return ResponseEntity.badRequest().body(response);
-        }
+    public ResponseEntity<Response<Page<Planet>>> findByName(@Valid @RequestParam("name") String name,
+                                                             @RequestParam(name = "page", defaultValue = "0") int page,
+                                                             @RequestParam(name = "count", defaultValue = "20") int count) {
+        Response<Page<Planet>> response = new Response<>();
+        response.setData(planetService.findByNameContaining(name, page, count));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping()
