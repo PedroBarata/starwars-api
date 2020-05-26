@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.annotation.Order;
@@ -33,6 +34,9 @@ public class PlanetControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Value("${swapi.uri}")
+    private String swapiURI;
 
     @Test
     @Order(1)
@@ -95,5 +99,12 @@ public class PlanetControllerTest {
         mockMvc.perform(delete(API + "/" + ID + "12345")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void i_testGetByNameSwapiShouldReturnStatus200() throws Exception {
+        mockMvc.perform(get(swapiURI + "planets/?search=Tatooine")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
