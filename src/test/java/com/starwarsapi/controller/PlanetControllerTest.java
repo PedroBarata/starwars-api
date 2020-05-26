@@ -63,35 +63,35 @@ public class PlanetControllerTest {
     }
 
     @Test
-    public void e_testGetByNameShouldThrowError() throws Exception {
-        mockMvc.perform(get(API + "/find?name=" + "testName")
+    public void d_testGetByNamePageShouldReturnStatus200() throws Exception {
+        mockMvc.perform(get(API + "/find?name=" + FIELD_NAME + "&page=0&count=10")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void f_testGetAllShouldReturnStatus200() throws Exception {
+    public void e_testGetAllShouldReturnStatus200() throws Exception {
         mockMvc.perform(get(API)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void g_testGetAllPageShouldReturnStatus200() throws Exception {
+    public void f_testGetAllPageShouldReturnStatus200() throws Exception {
         mockMvc.perform(get(API + "?page=0&count=10")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void h_testDeleteByIdShouldReturnStatus200() throws Exception {
+    public void g_testDeleteByIdShouldReturnStatus200() throws Exception {
         mockMvc.perform(delete(API + "/" + ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void i_testDeleteByIdShouldThrowError() throws Exception {
+    public void h_testDeleteByIdShouldThrowError() throws Exception {
         mockMvc.perform(delete(API + "/" + ID + "12345")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

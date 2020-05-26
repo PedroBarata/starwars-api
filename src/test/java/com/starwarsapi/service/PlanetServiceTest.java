@@ -26,6 +26,7 @@ public class PlanetServiceTest {
     private static final String FIELD_NAME = "Tatooine";
     private static final String FIELD_CLIMATE = "arid";
     private static final String FIELD_TERRAIN = "temperate";
+    private static final Integer FIELD_FILMS = 5;
 
     @Autowired
     PlanetRepository planetRepository;
@@ -41,7 +42,7 @@ public class PlanetServiceTest {
 
     @Test
     public void b_createOrUpdatePlanet() {
-        Planet planet = new Planet(ID, FIELD_NAME, FIELD_CLIMATE, FIELD_TERRAIN);
+        Planet planet = new Planet(ID, FIELD_NAME, FIELD_CLIMATE, FIELD_TERRAIN, FIELD_FILMS);
         planetService.createOrUpdate(planet);
     }
 
@@ -58,15 +59,15 @@ public class PlanetServiceTest {
     }
 
     @Test
-    public void e_testFindByExactNameShouldBeEqualOne() {
-        Optional<Planet> planet = planetService.findByName(FIELD_NAME);
-        assertThat(planet.isPresent()).isTrue();
+    public void e_testFindByNameShouldBeGreaterOrEqualOne() {
+        Page<Planet> planet = planetService.findByNameContaining(FIELD_NAME, 0, 20);
+        assertThat(planet.getTotalElements()).isGreaterThanOrEqualTo(1);
     }
 
     @Test
-    public void f_testFindByNonExistingNameShouldBeFalse() {
-        Optional<Planet> planet = planetService.findByName("Corus");
-        assertThat(planet.isPresent()).isFalse();
+    public void f_testFindByNonExistingNameShouldBeEqualZero() {
+        Page<Planet> planet = planetService.findByNameContaining("Corus142354", 0, 20);
+        assertThat(planet.getTotalElements()).isGreaterThanOrEqualTo(0);
     }
 
     @Test
