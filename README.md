@@ -64,7 +64,7 @@ Requisições aceitas:
 
 * Buscar um planeta pelo ID (método GET)
     * Endpoint `http://<ip_da_aplicação>:8080/api/planets/<id_do_planeta>`;
-* Buscar um planeta pelo nome (método GET)
+* Buscar um planeta pelo nome (método GET), com paginanção, onde é passado o nome do planeta, o nº de páginas e nº de itens por página:
     * Endpoint `http://<ip_da_aplicação>:8080/api/planets/find?name=<nome_do_planeta>&page=<num_page>&count=<num_items>`;*
 * Listar todos os planetas (método GET), com paginação, onde é passado o nº de páginas e nº de itens por página: 
     * Endpoint `http://localhost:8080/api/planets?page=<num_page>&count=<num_items>`;*
