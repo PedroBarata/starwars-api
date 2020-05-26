@@ -25,7 +25,7 @@ Para rodar em produção, precisamos, primeiramente, executar o build da aplica�
 e após isso rodar o jar criado:
 ```bash
 $ mvn package
-$ jar tvf target/starwarsapi-0.0.1-SNAPSHOT.jar
+$ java -jar target/starwarsapi-0.0.1-SNAPSHOT.jar
 ```
 
 ## Usage
