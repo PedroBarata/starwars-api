@@ -17,26 +17,25 @@ public class StarwarsapiApplication {
     private static final String FIELD_CLIMATE = "arid";
     private static final String FIELD_TERRAIN = "temperate";
     private static final String ID = "5ebc7a7a65c0bf7a292d900c";
-    private static final Integer FIELD_FILMS = 5;
 
     public static void main(String[] args) {
         SpringApplication.run(StarwarsapiApplication.class, args);
     }
 
     @Bean
-    CommandLineRunner init(PlanetRepository planetRepository) {
+    CommandLineRunner init(PlanetRepository planetRepository, PlanetService planetService) {
         return args -> {
-            initPlanet(planetRepository);
+            initPlanet(planetRepository, planetService);
         };
     }
 
-    private void initPlanet(PlanetRepository planetRepository) {
-        Planet planet = new Planet(ID, FIELD_NAME, FIELD_CLIMATE, FIELD_TERRAIN, FIELD_FILMS);
+    private void initPlanet(PlanetRepository planetRepository, PlanetService planetService) {
+        Planet planet = new Planet(ID, FIELD_NAME, FIELD_CLIMATE, FIELD_TERRAIN, null);
         Optional<Planet> findPlanet = planetRepository.findByNameIgnoreCase(planet.getName());
         if (findPlanet.isPresent()) {
             planetRepository.deleteById(findPlanet.get().getId());
         }
-        planetRepository.save(planet);
+        planetService.createOrUpdate(planet);
     }
 
 }
